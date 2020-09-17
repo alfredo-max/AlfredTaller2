@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">AlfredTaller2</string>
+
+    <string name="itemaleatorio">Aleatorio</string>
+    <string name="itemdistancia">Distancia</string>
+
 </resources>
