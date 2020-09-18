@@ -10,6 +10,8 @@ import android.widget.TextView;
 import android.view.View;
 import android.widget.Toast;
 
+import java.util.Random;
+
 public class MainActivity extends AppCompatActivity {
 
     private EditText text_valor1,text_valor2,text_valor3,text_valor4;
@@ -28,18 +30,19 @@ public class MainActivity extends AppCompatActivity {
         text_resultado=(TextView)findViewById(R.id.txt_resultado);
 
     }
-
+    @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.overflow, menu);
         return true;
 
     }
+
     public boolean onOptionsItemSelected(MenuItem item){
         int id= item.getItemId();
         if(id==R.id.ItemAleatorio){
-           // Toast.makeText( context: this , text:"aprobado" , Toast.LENGTH_SHORT).show();
+           Aleatorio();
         }else if (id==R.id.ItemDistancia){
-           // Toast.makeText(context: this, text:"distancia",Toast.LENGTH_SHORT).show();
+           Distancia();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -67,6 +70,55 @@ public class MainActivity extends AppCompatActivity {
 
         return vacio;
     }
+
+
+
+    public void Distancia(){
+
+        String valor1=text_valor1.getText().toString();
+        String valor2=text_valor2.getText().toString();
+
+        String valor3=text_valor3.getText().toString();
+        String valor4=text_valor4.getText().toString();
+
+        if(!ValidarVacio(valor1,valor2,valor3,valor4)){
+            double num1= Double.parseDouble(valor1);
+            double num2= Double.parseDouble(valor2);
+
+            double num3= Double.parseDouble(valor3);
+            double num4= Double.parseDouble(valor4);
+
+            double d = Math.sqrt(Math.pow((num3-num1),2)+Math.pow((num4-num2),2));
+            double distancia = Math.abs(d);
+            String Rdistancia= String.valueOf(distancia);
+            text_resultado.setText("Distancia: "+Rdistancia );
+        }
+    }
+
+    public void Aleatorio() {
+        int min=-50;
+        int max=50;
+       text_valor1.setText(GenerarAleatorio(min,max));
+       text_valor2.setText(GenerarAleatorio(min,max));
+       text_valor3.setText(GenerarAleatorio(min,max));
+       text_valor4.setText(GenerarAleatorio(min,max));
+
+       text_valor1.setError(null);
+       text_valor2.setError(null);
+       text_valor3.setError(null);
+       text_valor4.setError(null);
+
+       text_resultado.setText("0");
+    }
+
+
+    public String GenerarAleatorio(int min, int max) {
+            Random r = new Random();
+            Integer num = r.nextInt((max - min) + 1) + min;
+            String valor= String.valueOf(num);
+            return valor;
+    }
+
     public void PuntoMedio(View view){
 
         String valor1=text_valor1.getText().toString();
@@ -108,11 +160,14 @@ public class MainActivity extends AppCompatActivity {
             double num3= Double.parseDouble(valor3);
             double num4= Double.parseDouble(valor4);
 
-            double m= (num4-num2)/(num3-num1);
+            if(num3-num1!=0){
+                double m= (num4-num2)/(num3-num1);
+                String pendiente= String.valueOf(m);
+                text_resultado.setText("La pendiente es: "+pendiente );
+            }else{
+                text_resultado.setText("pendiente indefinida");
+            }
 
-            String pendiente= String.valueOf(m);
-
-            text_resultado.setText("La pendiente es: "+pendiente );
 
         }
 
